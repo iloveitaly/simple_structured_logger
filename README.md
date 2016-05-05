@@ -1,36 +1,54 @@
 # SimpleStructuredLogger
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/simple_structured_logger`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
+Dead-simple structured logging in ruby with a dead-simple codebase. That's it.
 
 ```ruby
 gem 'simple_structured_logger'
 ```
 
-And then execute:
+## Design Goals
 
-    $ bundle
+* Extremely simple codebase that's easy to read and override
+* Structured logging that reads nicely
+* Ability to easily set context, and expand context with user-configurable hook
+* Ability to easily add structured log pre-processing. I want to be able to pass
+  in an object specific to my application and for the relavent important keys to
+  be expanded automatically.
+* `Rails.logger = SimpleStructuredLogger.new(STDOUT)`
+* Not designed around massive systems or scale
+* Don't support multiple log destinations
+* Don't build in fancy pre-processing for errors or other common ruby objects
 
-Or install it yourself as:
+### Opinionated Devops Setup
 
-    $ gem install simple_structured_logger
+* Errors are tracked using Rollbar, Airbrake, Sentry, etc.
+* Log to STDOUT
+* Pipe STDOUT to PaperTrail, Loggly, etc
+* Great for Heroku or [dokku/docker](http://mikebian.co/sending-dokku-container-logs-to-papertrail/) hosted system
+
+## Alternatives
+
+* https://github.com/jordansissel/ruby-cabin
+* https://github.com/asenchi/scrolls
+* https://github.com/stripe/chalk-log
+* https://github.com/nishidayuya/structured_logger
+
+## Why is structured logging important?
+
+* https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying
+* http://juliusdavies.ca/logging.html
+
+## What about Rail's tagged logging?
+
+Tagged logging is not structured logging. I want to be able to search through
+PaperTrail and easily grab an audit trail for a specific context, i.e. `the_job=FailingJob the_user=1`.
 
 ## Usage
 
 TODO: Write usage instructions here
 
-## Development
+## Testing
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/simple_structured_logger.
-
+```
+bundle exec rake
+```

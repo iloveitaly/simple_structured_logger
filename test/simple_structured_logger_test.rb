@@ -1,11 +1,20 @@
 require 'test_helper'
 
 class SimpleStructuredLoggerTest < Minitest::Test
-  def test_that_it_has_a_version_number
-    refute_nil ::SimpleStructuredLogger::VERSION
+  include SimpleStructuredLogger
+
+  def test_logging_stdout
+    log.info("hey", foo: "bar")
+    log.error("hey", foo: "bar")
+    log.debug("hey", foo: "bar")
+    log.warn("hey", foo: "bar")
   end
 
-  def test_it_does_something_useful
-    assert false
+  def text_expand_context
+    #code
+  end
+
+  def test_expand_log
+    #code
   end
 end
