@@ -5,6 +5,17 @@ module SimpleStructuredLogger
     SimpleStructuredLogger::Writer.instance
   end
 
+  def self.included(klass)
+
+    # TODO there's got to be a cleaner way to add a class method from `include`
+    klass.class_eval do
+      def self.log
+        SimpleStructuredLogger::Writer.instance
+      end
+    end
+
+  end
+
   module Configuration
     extend self
 
