@@ -1,4 +1,5 @@
 require 'logger'
+require 'singleton'
 
 module SimpleStructuredLogger
   def log
