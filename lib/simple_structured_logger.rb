@@ -7,7 +7,6 @@ module SimpleStructuredLogger
   end
 
   def self.included(klass)
-
     # TODO there's got to be a cleaner way to add a class method from `include`
     klass.class_eval do
       def self.log
@@ -54,6 +53,10 @@ module SimpleStructuredLogger
     def set_context(context)
       reset_context!
 
+      if self.respond_to?(:expand_context)
+        context = self.expand_context(context)
+      end
+
       @default_tags.merge!(context)
     end
 
@@ -78,7 +81,9 @@ module SimpleStructuredLogger
       def stringify_tags(additional_tags)
         additional_tags = additional_tags.dup
 
-        # TODO expand
+        if self.respond_to?(:expand_log)
+          additional_tags = self.expand_log(additional_tags)
+        end
 
         @default_tags.merge(additional_tags).map { |k,v| "#{k}=#{v}" }.join(' ')
       end
