@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "simple_structured_logger"
-  spec.version       = '0.1.2'
+  spec.version       = '0.1.3'
   spec.authors       = ["Michael Bianco"]
   spec.email         = ["mike@cliffsidemedia.com"]
 
