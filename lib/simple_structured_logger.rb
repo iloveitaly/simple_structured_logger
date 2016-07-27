@@ -39,10 +39,10 @@ module SimpleStructuredLogger
   class Writer
     include Singleton
 
-    attr_reader :default_tags
+    attr_reader :default_tags, :logger
 
     def initialize
-      @l = ::Logger.new(STDOUT)
+      @logger = ::Logger.new(STDOUT)
       @default_tags = {}
     end
 
@@ -61,19 +61,19 @@ module SimpleStructuredLogger
     end
 
     def error(msg, opts={})
-      @l.error("#{msg}: #{stringify_tags(opts)}")
+      @logger.error("#{msg}: #{stringify_tags(opts)}")
     end
 
     def info(msg, opts={})
-      @l.info("#{msg}: #{stringify_tags(opts)}")
+      @logger.info("#{msg}: #{stringify_tags(opts)}")
     end
 
     def debug(msg, opts={})
-      @l.debug("#{msg}: #{stringify_tags(opts)}")
+      @logger.debug("#{msg}: #{stringify_tags(opts)}")
     end
 
     def warn(msg, opts={})
-      @l.warn("#{msg}: #{stringify_tags(opts)}")
+      @logger.warn("#{msg}: #{stringify_tags(opts)}")
     end
 
     private
