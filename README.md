@@ -32,6 +32,7 @@ gem 'simple_structured_logger'
 * https://github.com/asenchi/scrolls
 * https://github.com/stripe/chalk-log
 * https://github.com/nishidayuya/structured_logger
+* https://github.com/rocketjob/semantic_logger
 
 ## Why is structured logging important?
 
