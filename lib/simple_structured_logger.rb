@@ -39,7 +39,7 @@ module SimpleStructuredLogger
   class Writer
     include Singleton
 
-    attr_reader :default_tags, :logger
+    attr_accessor :default_tags, :logger
 
     def initialize
       @logger = ::Logger.new(STDOUT)
