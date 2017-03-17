@@ -46,7 +46,26 @@ PaperTrail and easily grab an audit trail for a specific context, i.e. `the_job=
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+# config/initializers/logger.rb
+if Rails.env.development? || Rails.env.test?
+  SimpleStructuredLogger::Writer.instance.logger = Rails.logger
+end
+
+# models/order.rb
+class Order
+  include SimpleStructuredLogger
+
+  def initialize
+    log.reset_context!
+    log.default_tags[:global] = 'key'
+  end
+
+  def do_something
+    log.info 'simple structured logging', key: value, shopify_id: 123
+  end
+end
+```
 
 ## Testing
 
