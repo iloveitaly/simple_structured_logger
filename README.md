@@ -1,7 +1,5 @@
 [![Ruby](https://github.com/iloveitaly/simple_structured_logger/actions/workflows/ruby.yml/badge.svg)](https://github.com/iloveitaly/simple_structured_logger/actions/workflows/ruby.yml)
-
-[gem]: https://img.shields.io/gem/v/simple_structured_logger.svg
-[gem_url]: https://rubygems.org/gems/simple_structured_logger
+[![gem](https://img.shields.io/gem/v/simple_structured_logger.svg)](https://rubygems.org/gems/simple_structured_logger)
 
 # SimpleStructuredLogger
 
