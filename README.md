@@ -1,3 +1,8 @@
+[![Ruby](https://github.com/iloveitaly/simple_structured_logger/actions/workflows/ruby.yml/badge.svg)](https://github.com/iloveitaly/simple_structured_logger/actions/workflows/ruby.yml)
+
+[gem]: https://img.shields.io/gem/v/simple_structured_logger.svg
+[gem_url]: https://rubygems.org/gems/simple_structured_logger
+
 # SimpleStructuredLogger
 
 Dead-simple structured logging in ruby with a dead-simple codebase. That's it.
