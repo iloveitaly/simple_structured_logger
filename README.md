@@ -3,7 +3,7 @@
 
 # SimpleStructuredLogger
 
-Dead-simple structured logging in ruby with a dead-simple codebase. That's it.
+Dead-simple structured logging in ruby with a dead-simple codebase. No dependencies, everything logs to stdout, and simple hooks to customize. That's it.
 
 ```ruby
 gem 'simple_structured_logger'
