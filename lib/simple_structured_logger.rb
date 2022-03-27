@@ -2,6 +2,14 @@ require 'logger'
 require 'singleton'
 
 module SimpleStructuredLogger
+  def self.configure(&block)
+    SimpleStructuredLogger::Configuration.instance_eval(&block)
+  end
+
+  def self.logger
+    SimpleStructuredLogger::Writer.instance.logger
+  end
+
   def log
     SimpleStructuredLogger::Writer.instance
   end
@@ -13,25 +21,27 @@ module SimpleStructuredLogger
         SimpleStructuredLogger::Writer.instance
       end
     end
-
   end
 
   module Configuration
     extend self
 
+    @expand_context = nil
+    @expand_log = nil
+
     def expand_context(&block)
       if block.nil?
-        @expand_context = block
-      else
         @expand_context
+      else
+        @expand_context = block
       end
     end
 
     def expand_log(&block)
       if block.nil?
-        @expand_log = block
-      else
         @expand_log
+      else
+        @expand_log = block
       end
     end
   end
@@ -44,6 +54,16 @@ module SimpleStructuredLogger
     def initialize
       @logger = ::Logger.new(STDOUT)
       @default_tags = {}
+
+      set_log_level_from_environment
+    end
+
+    def set_log_level_from_environment
+      env_log_level = ENV['LOG_LEVEL']
+
+      if !env_log_level.nil? && Logger::Severity.const_defined?(env_log_level.upcase)
+        @logger.level = Logger::Severity.const_get(env_log_level.upcase)
+      end
     end
 
     def reset_context!
@@ -53,8 +73,8 @@ module SimpleStructuredLogger
     def set_context(context)
       reset_context!
 
-      if self.respond_to?(:expand_context)
-        context = self.expand_context(context)
+      if SimpleStructuredLogger::Configuration.expand_context
+        context = SimpleStructuredLogger::Configuration.expand_context.call(context)
       end
 
       @default_tags.merge!(context)
@@ -76,17 +96,15 @@ module SimpleStructuredLogger
       @logger.warn("#{msg}: #{stringify_tags(opts)}")
     end
 
-    private
+    private def stringify_tags(additional_tags)
+      additional_tags = additional_tags.dup
 
-      def stringify_tags(additional_tags)
-        additional_tags = additional_tags.dup
-
-        if self.respond_to?(:expand_log)
-          additional_tags = self.expand_log(additional_tags)
-        end
-
-        @default_tags.merge(additional_tags).map { |k,v| "#{k}=#{v}" }.join(' ')
+      if SimpleStructuredLogger::Configuration.expand_log
+        additional_tags = SimpleStructuredLogger::Configuration.expand_log.call(additional_tags, self.default_tags)
       end
+
+      @default_tags.merge(additional_tags).map {|k, v| "#{k}=#{v}" }.join(' ')
+    end
 
   end
 end
