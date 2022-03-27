@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = '1.0.0'
   spec.authors       = ["Michael Bianco"]
   spec.email         = ["mike@mikebian.co"]
+  spec.licenses      = ['MIT']
 
   spec.summary       = "Dead-simple structured logging in ruby with a simple codebase"
   spec.homepage      = "https://github.com/iloveitaly/simple_structured_logger"
