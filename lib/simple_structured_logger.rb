@@ -58,11 +58,15 @@ module SimpleStructuredLogger
       set_log_level_from_environment
     end
 
+    # returns true if log level is set from env
     def set_log_level_from_environment
       env_log_level = ENV['LOG_LEVEL']
 
       if !env_log_level.nil? && Logger::Severity.const_defined?(env_log_level.upcase)
         @logger.level = Logger::Severity.const_get(env_log_level.upcase)
+        true
+      else
+        false
       end
     end
 
