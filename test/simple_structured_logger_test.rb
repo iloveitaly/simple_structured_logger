@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative 'test_helper'
 require 'ostruct'
 
 class SimpleStructuredLoggerTest < Minitest::Test
@@ -9,6 +9,8 @@ class SimpleStructuredLoggerTest < Minitest::Test
       @expand_context = nil
       @expand_log = nil
     end
+
+    ENV.delete('LOG_LEVEL')
   end
 
   def capture_logs(&block)
@@ -28,13 +30,14 @@ class SimpleStructuredLoggerTest < Minitest::Test
     log.warn("hey", foo: "bar")
   end
 
-  def text_expand_context
+  def test_expand_context
     SimpleStructuredLogger.configure do
       expand_context do |context|
         # you can pass in a object and use `expand_context` to extract the relevant keys
         if context[:user]
           context[:user_id] = context[:user].id
           context[:user_name] = context[:user].name
+          context.delete(:user)
         end
 
         context
@@ -48,7 +51,9 @@ class SimpleStructuredLoggerTest < Minitest::Test
       log.info "core"
     end
 
-    binding.repl
+    assert_match("user_id=1", out)
+    assert_match("user_name=mike", out)
+    assert_match("other=argument", out)
   end
 
   def test_expand_log
