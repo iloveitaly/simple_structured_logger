@@ -107,7 +107,7 @@ module SimpleStructuredLogger
         additional_tags = SimpleStructuredLogger::Configuration.expand_log.call(additional_tags, self.default_tags)
       end
 
-      @default_tags.merge(additional_tags).map {|k, v| "#{k}=#{v}" }.join(' ')
+      additional_tags.merge(@default_tags).map {|k, v| "#{k}=#{v}" }.join(' ')
     end
 
   end
