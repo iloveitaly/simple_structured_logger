@@ -11,6 +11,9 @@ class SimpleStructuredLoggerTest < Minitest::Test
     end
 
     ENV.delete('LOG_LEVEL')
+    log.set_log_level_from_environment
+
+    log.reset_context!
   end
 
   def capture_logs(&block)
@@ -48,7 +51,7 @@ class SimpleStructuredLoggerTest < Minitest::Test
     log.set_context(user: user, other: 'argument')
 
     out = capture_logs do
-      log.info "core"
+      log.error "core"
     end
 
     assert_match("user_id=1", out)
